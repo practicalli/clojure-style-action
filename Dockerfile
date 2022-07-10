@@ -1,4 +1,4 @@
-FROM eclipse:temurin-17
+FROM alpine:3.14
 
 ## Install Reviewdog
 ENV REVIEWDOG_VERSION=v0.12.0
