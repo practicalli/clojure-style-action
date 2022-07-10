@@ -6,7 +6,8 @@ RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/in
 
 ## Install cljstyle
 ENV CLJSTYLE_VERSION=v0.15.0
-RUN wget -O - -q https://raw.githubusercontent.com/greglook/cljstyle/main/script/install-cljstyle | sh -s -- --dir /usr/local/bin/ --version ${CLJSTYLE_VERSION}
+RUN apk --no-cache add curl
+RUN curl -sLO https://raw.githubusercontent.com/greglook/cljstyle/main/script/install-cljstyle | sh -s -- --dir /usr/local/bin/ --version ${CLJSTYLE_VERSION}
 
 COPY style.sh /style.sh
 
