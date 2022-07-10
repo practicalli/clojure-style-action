@@ -13,7 +13,7 @@ echo "::group::Files to style"
 echo "${sources}"
 echo "::endgroup::"
 
-cljstyle fix
+/usr/local/bin/cljstyle check
   | reviewdog \
       -efm="%f:%l:%c: %m" \
       -name="cljstyle" \
