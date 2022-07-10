@@ -1,0 +1,98 @@
+# Clojure Style Action
+
+GitHub Action to format clojure using [cljstyle](https://github.com/greglook/cljstyle), adding comments to pull requests using [reviewdog](https://github.com/reviewdog/reviewdog) to simplify the code review experience.
+
+## Configuration options
+
+### `github_token`
+
+Optional.
+`${{ github.token }}` is used by default.
+
+### `level`
+
+Optional.
+Report level for reviewdog- must be one of `[info, warning, error]`.
+It's same as `-level` flag of reviewdog.
+
+### `reporter`
+
+Reporter of reviewdog command.
+Must be one of `[github-pr-check, github-pr-review, github-check]`.
+Default is github-pr-check.
+github-pr-review can use Markdown and add a link to rule page in reviewdog reports.
+
+### `filter_mode`
+
+Optional.
+Filtering mode for the reviewdog command.
+Must be one of `[added, diff_context, file, nofilter]`.
+Default is added.
+
+### `fail_on_error`
+
+Optional.
+Sets and exceptional exit code for reviewdog when errors are found.
+Must be one of `[true, false]`.
+Default is `false`.
+
+### `reviewdog_flags`
+
+Optional.
+Additional reviewdog flags.
+
+### `path`
+
+Optional.
+Base directory to run clj-kondo.
+Same as `[path]` of `find` command.
+Default: `.`
+
+### `pattern`
+
+Optional.
+File patterns of target files.
+Same as `-name [pattern]` of `find` command.
+Default: `*.clj*` (To capture `*.clj`, `*.cljs`, `*.cljc`, and `*.cljx`)
+
+### `exclude`
+
+Optional.
+Exclude patterns of target files.
+Same as `-not -path [exclude]` of `find` command.
+e.g. `./git/*`
+
+### `cljstyle_config`
+
+Optional.
+Flags to pass to cljstye `--config` option, which may either be in-line options or a path to a config file.
+
+Default: `'{:output {:pattern "{{filename}}:{{row}}:{{col}}: {{message}}"}}'`
+
+## Example usage
+
+### [.github/workflows/reviewdog.yml](.github/workflows/reviewdog.yml)
+
+To receive automatic Pull Request comments with linter results:
+
+```yml
+name: Style Clojure
+on: [pull_request]
+jobs:
+  cljstyle:
+    name:  Workflow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.0.2
+      - name: cljstyle
+        uses: practicalli/clojure-style-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+```
+
+## Licensing
+
+Copyright © 2022 [Practicaqlli](https://practical.li/)
+
+Distributed under the [Creative Commons ShareAlike License](https://creativecommons.org)
